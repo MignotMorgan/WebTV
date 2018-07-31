@@ -7,4 +7,5 @@ web tv avec horaire programmable, utilisant jwplayer.
 - MVC
 - jwplayer
 - jquery
+- javascript
 - bootstrap
