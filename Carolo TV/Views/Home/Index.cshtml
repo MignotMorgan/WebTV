@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="nav navbar"></div>
+
+<div class="container col-xs-12 col-md-10 col-lg-10">
+    <div class="row">
+        <div class="container col-xs-12 col-md-6 col-lg-6">
+            <div class="carousel slide" id="carousel-channel" data-ride="carousel" data-interval="2000" data-pause="hover">
+                <ol class="carousel-indicators">
+                    <li data-slide-to="0" data-target="#carousel-channel" class="active"></li>
+                    <li data-slide-to="1" data-target="#carousel-channel" class=""></li>
+                    <li data-slide-to="2" data-target="#carousel-channel" class=""></li>
+                    <li data-slide-to="3" data-target="#carousel-channel" class=""></li>
+                    <li data-slide-to="4" data-target="#carousel-channel" class=""></li>
+                    <li data-slide-to="5" data-target="#carousel-channel" class=""></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=Informavie">
+                            <img alt="Informavie" src="~/Images/Informavie.png">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=Mangameek">
+                            <img alt="Mangameek" src="~/Images/Mangameek.png">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=Mystravely">
+                            <img alt="Mystravely" src="/Images/Mystravely.png">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=TutorialTV">
+                            <img alt="Tutorial TV" src="~/Images/TutorialTV.png">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=Variety">
+                            <img alt="Variety" src="~/Images/Variety.png">
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a class="thumbnail" href="/WebTV/WebTVChannel?channel=CaroloMusic">
+                            <img alt="Carolo Music" src="/Images/CaroloMusic.png">
+                        </a>
+                    </div>
+                </div>
+                <a data-slide="prev" href="#carousel-channel" class="left carousel-control">
+                    <span class="glyphicon glyphicon-chevron-left control-prev"></span>
+                </a>
+                <a data-slide="next" href="#carousel-channel" class="right carousel-control">
+                    <span class="glyphicon glyphicon-chevron-right control-next"></span>
+                </a>
+            </div>
+        </div>
+        <div class="container col-xs-12 col-md-6 col-lg-6">
+            <div class="jumbotron">
+                <img style="width: 100%; height:100%" src="/Images/CaroloTV.png">
+                <h3>Carolo TV</h3>
+                <p class="lead"> <h5>La chaîne de télévision du Web, vous propose les meilleurs vidéo du moment en continu à travers un panel varié de thème.</h5></p>
+                <p class="lead"> <h5>La chaîne de télévision du Web, vous propose les meilleurs vidéo du moment en continu à travers un panel varié de thème.</h5></p>
+                @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            @{
+                int i = 0;
+                foreach (CaroloTV.Models.News n in ViewBag.News)
+                {
+                    <div class="col-md-4">
+                        <div class="panel panel-info">
+                             <div class="panel-body">
+                                <a href="#collapse@{@i}" data-toggle="collapse" class="accordion-toggle thumbnail">
+                                    <img src="@n.Image" alt="">
+                                </a>
+                                <h2>@n.Title</h2>
+                                 <p><h6>sur @n.Channel le @n.Hourly.Date</h6></p>
+                                <div class="panel-collapse collapse" id="collapse@{@i}">
+                                    <h3>@n.Resume</h3>
+                                    <h5>@n.Description</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+            }  
+
+        @*<div class="col-md-4">
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="http://femmes-femmes.f.e.pic.centerblog.net/7cb38a3e.jpg" alt=""> </a>
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="https://s-media-cache-ak0.pinimg.com/originals/13/76/28/13762835a10782b1bcd1db112b98a2a7.jpg" alt=""> </a>
+
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="https://i.skyrock.net/3976/53633976/pics/2929944961_1_5.jpg" alt=""> </a>
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="https://s-media-cache-ak0.pinimg.com/236x/f6/a8/2d/f6a82d3c5dce4a8dd4abff8a6cc2ae64--saloon-girls-working-girls.jpg" alt=""> </a>
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="https://i.skyrock.net/3976/53633976/pics/2929944961_1_3.jpg" alt=""> </a>
+        </div>
+        <div class="col-md-4">
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="http://lusile17.l.u.pic.centerblog.net/910c10d5.jpg" alt=""> </a>
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="http://cms.kienthuc.net.vn/zoom/1000/uploaded/tuyetmai/2016_07_21/my%20nhan/ngam-tuyet-dai-my-nhan-phuong-tay-nam-1900-hinh-10.jpg" alt=""> </a>
+            <a class="thumbnail thumbnail-inverse" href="#"> <img src="http://lusile17.l.u.pic.centerblog.net/d0eb8966.jpg" alt=""> </a>
+        </div>*@
+    </div>
+
+
+
+    <div class="row">
+        <div class="container col-xs-12 col-md-12 col-lg-12">
+            <div class="carousel slide" id="carousel-new" data-ride="carousel" data-interval="5000" data-pause="hover">
+                <ol class="carousel-indicators">
+                    <li data-slide-to="0" data-target="#carousel-new" class="active"></li>
+                    <li data-slide-to="1" data-target="#carousel-new" class=""></li>
+                    <li data-slide-to="2" data-target="#carousel-new" class=""></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img style="width: 100%; height:100%" src="http://images.supportduweb.com/signatures/sign_bg/img_39.png">
+                        <div class="carousel-caption">
+                            <img src="http://images.webestools.com/signatures/sign_bg/img_38.png">
+                            <h3>Slide 1 label</h3>
+                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img style="width: 100%; height:100%" src="http://images.webestools.com/signatures/sign_bg/img_38.png">
+                        <div class="carousel-caption">
+                            <h3>Slide 2 label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img style="width: 100%; height:100%" src="http://images.webestools.com/signatures/sign_bg/img_38.png">
+                        <div class="carousel-caption">
+                            <div class="jumbotron">
+                                <h3>Nouvelle</h3>
+                                <p>Nouvelle concernant une vidéo ou un programme télé!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a data-slide="prev" href="#carousel-new" class="left carousel-control">
+                    <span class="icon icon-chevron-left icon-lg control-prev"></span>
+                </a>
+                <a data-slide="next" href="#carousel-new" class="right carousel-control">
+                    <span class="icon icon-chevron-right icon-lg control-next"></span>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    @*<div class="row">
+        <div class="col-md-4">
+            <h2>Suggestion</h2>
+            <p>Carolo Tv vous offre l'opportunitée de passer vos vidéo en continu ou de faire des suggestions de vidéo, de chaîne ou autres que vous aimé. Pour cela rien de plus simple, remplissez notre formulaire de suggestion.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Nous joindres. &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Le journalisme à votre portée</h2>
+            <p>Devenez journaliste d'un jour ou de toujours pour votre région ou un évènement. Pour cela rien de plus simple, remplissez notre formulaire d'adhésion et envoyer nous vos vidéo.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Candidature &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Créer votre WebTV</h2>
+            <p>Vous désirez créer votre WebTv en continu, inscrivez-vous et rejoignez nous dans la grande aventure des WebTv en continu.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Postulez &raquo;</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Votre publicité à la vue de tous.</h2>
+            <p>Vous désirez faire la publicité de votre site, de votre établissement ou de vos produits? CaroloTV met à votre disposition une plate-forme performante.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Nous contactez. &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Nous aider</h2>
+            <p>Vous pouvez nous aider à améliorer notre service en nous finançant.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Financement. &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Votre avis compte</h2>
+            <p>Faites nous part de votre avis et des différentes améliorations que nous pouvons apporter à CaroloTV.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Votre avis. &raquo;</a></p>
+        </div>
+    </div>*@
+
+</div>
+
+<div class="container col-xs-12 col-md-2 col-lg-2">
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+    <div class="jumbotron"><h1>PUB</h1></div>
+</div>
+
+
+
+<style>
+    body {
+        background: url(http://www.autourduweb.fr/wp-content/uploads/2011/11/wxp-12.jpg);
+        background-size: 100%;
+        background-repeat: no-repeat;
+        width: 100%;
+    }
+</style>

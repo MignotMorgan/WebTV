@@ -1,0 +1,200 @@
+﻿@model CaroloTV.Models.Media
+
+@{ViewData["Title"] = "Media";}
+
+<script language="JavaScript" type="text/javascript" src="~/Scripts/WebTV.js"></script>
+
+@using (Html.BeginForm("SaveMedia", "Create", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="container-fluid col-xs-12 col-md-6 col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Créer un nouveau Média</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(m => m.Name, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(m => m.Src, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(m => m.Src, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(m => m.Src, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(m => m.VideoPlayer, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.DropDownListFor(m => m.VideoPlayer, Enum.GetValues(typeof(CaroloTV.Models.VideoPlayer)).Cast<CaroloTV.Models.VideoPlayer>().Select(c => new SelectListItem { Text = c.ToString(), Value = c.ToString() }), new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.VideoPlayer, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.StartSeconds, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.StartSeconds, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.StartSeconds, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Duration, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Duration, new { @class = "form-control", id="txtDuration" })</div>
+                    @Html.ValidationMessageFor(p => p.Duration, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.ProprietaryName, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.ProprietaryName, new { @class = "form-control", @readonly = "readonly" })</div>
+                    @Html.ValidationMessageFor(p => p.ProprietaryName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Description, new { @class = "control-label", id = "lblDescription" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextAreaFor(p => p.Description, new { @class = "form-control", rows = "10", oninput= "SetDescription()", id="txtDescription" })</div>
+                    @Html.ValidationMessageFor(p => p.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary btn-xs">Save</button>
+                @Html.ActionLink("Clear", "MediaClear", "Create", null, new { @class = "btn btn-primary btn-xs" })
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container col-xs-12 col-md-6 col-lg-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Propriétaire</div>
+        <div class="panel-body">
+            <label class="label label-primary">@ViewBag.Channel</label>
+            <label class="label label-primary">@ViewBag.Proprietary.Name</label>
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="number" id="txtHour" value="0" class="form-control" />
+                </span>
+                <span class="input-group-addon">
+                    <input type="number" id="txtMinute" value="0" class="form-control" />
+                </span>
+                <span class="input-group-addon">
+                    <input type="number" id="txtSecond" value="0" class="form-control" />
+                </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" onclick="SetDuration()"><i class="glyphicon glyphicon-time"></i> calculer</button>
+                    </span>
+</div>
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Liste des Médias
+        </div>
+        <div class="panel-body">
+                @using (Html.BeginForm("MediaMKeyword", "Create", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        <input type="text" class="form-control" name="value" value="@ViewBag.Keyword" />
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">Chercher</button>
+                        </span>
+                    </div>
+                }
+        </div>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    @*<th>Src</th>*@
+                    <th>Description</th>
+                    <th>Selectionner</th>
+                    <th>Supprimer</th>
+                </tr>
+                @{
+                    foreach (var m in ViewBag.Medias)
+                    {
+                        <tr>
+                            <td>@m.Name</td>
+                            @*<td>@m.Src</td>*@
+                            <td></td>
+                            <td>
+                                @Html.ActionLink("Selectionner", "MediaSelect", "Create", new { value = @m.Name }, new { @class = "btn btn-primary btn-xs" })
+                            </td>
+                            <td>
+                                @*@Html.ActionLink("Supprimer", "DeleteMedia", "Create", new { value = @m.Name }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-remove" })*@
+                                <a class="btn btn-danger btn-xs" onclick="DeleteMedia('@m.Name')"><i class="glyphicon glyphicon-remove"></i> Supprimer</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "MediaPage", "Create", new { value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "MediaPage", "Create", new { value = @ViewBag.MPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.MPage.MinPage; i <= ViewBag.MPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.MPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "MediaPage", "Create", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "MediaPage", "Create", new { value = @ViewBag.MPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "MediaPage", "Create", new { value = @ViewBag.MPage.TotalPage }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div> 
+
+
+
+
+
+<div class="modal fade" id="ModalDeleteMedia" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteMediaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Supprimer le média</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger btn-xs" onclick="ConfirmDeleteMedia()" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Supprimer</a>
+                <button class="btn btn-inverse btn-xs" type="button" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i><i class="icon icon-camera"></i> Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var media;
+    function DeleteMedia(m)
+    {
+        media = m;
+        $('#ModalDeleteMedia').modal({
+            backdrop: true,
+            keyboard: true,
+            show: true,
+            remote: false
+        })
+        $('#ModalDeleteMedia').on('hide.bs.modal', function (e) { })
+    };
+    function ConfirmDeleteMedia()
+    {
+        window.location.href = "/Create/DeleteMedia?value=" + media;
+    };
+
+    function SetDuration()
+    {
+        var txthour = document.getElementById("txtHour");
+        var txtminute = document.getElementById("txtMinute");
+        var txtsecond = document.getElementById("txtSecond");
+        document.getElementById("txtDuration").value = (txthour.value * 60 * 60) + (txtminute.value * 60) + (txtsecond.value*1);
+        txthour.value = txtminute.value = txtsecond.value = 0;
+    };
+    function SetDescription()
+    {
+        var txtdescription = document.getElementById("txtDescription");
+        document.getElementById("lblDescription").innerHTML="Description (" + txtdescription.value.length + ")";
+    };
+</script>
+
+
+

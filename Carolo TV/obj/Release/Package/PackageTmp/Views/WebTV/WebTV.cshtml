@@ -1,0 +1,22 @@
+﻿@model IEnumerable<CaroloTV.Models.Hourly>
+
+<script src="~/Scripts/jwplayer/jwplayer.js"></script>
+<script>jwplayer.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";</script>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/WebTV.js"></script>
+
+<script type="text/javascript">
+    function SetChannel() { Channel = "@ViewBag.Channel"; };
+</script>
+
+<div class="container col-xs-12 col-md-4 col-lg-4">
+    <div class="panel panel-primary">
+        <div id="mylabel"></div>
+        <div class="panel-heading" id="panelHeading"></div>
+        <div class="panel-body" id="panelVideo">
+            <div id="myElement">Loading the player...</div>
+            
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,291 @@
+﻿@model IEnumerable<CaroloTV.Models.Hourly>
+
+<div class="container col-xs-12 col-md-5 col-lg-5">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Horaire</div>
+        <div class="panel-body">
+            @Html.ActionLink("Actualiser", "ActualiserHourly", "Create", new {proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary" })
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                <th>Date</th>
+                <th>Media</th>
+                <th>Supprimer</th>
+            </tr>
+        
+            @{
+                foreach (CaroloTV.Models.Hourly h in Model)
+                {
+                    <tr>
+                        <td>@h.Date</td>
+                        <td>@h.Media.Name</td>
+                        <td>
+                            @Html.ActionLink("Supprimer", "DeleteHourly", "Create", new { hourlyGuid = @h.Guid, proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = 0, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.Before, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    @{
+                        for (int i = ViewBag.HourlyNavPage.MinPage; i <= ViewBag.HourlyNavPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.HourlyNavPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @i, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.After, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.TotalPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                </ul>
+            </nav>
+
+
+
+
+            @*<ul class="nav nav-pills">
+                @{
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage="0" asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword><<</a></li>
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.Before asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword><</a></li>
+        
+                    for (int i = ViewBag.HourlyNavPage.MinPage; i <= ViewBag.HourlyNavPage.MaxPage; i++)
+                    {
+                        string className = "";
+                        if (i == ViewBag.HourlyNavPage.CurrentPage) { className = "active"; }
+        
+        
+                        <li class=@className>
+                            <a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage="@i" asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>@i</a>
+                        </li>
+                    }
+        
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.After asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>></a></li>
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.TotalPage asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>>></a></li>
+                }
+            </ul>*@
+        </div>
+    </div>
+</div>
+
+<div class="container col-xs-12 col-md-4 col-lg-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Media</div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.Before }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control" name="mediaKeyword" value="@ViewBag.MediaKeyword" placeholder="Texte" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </span>
+                </div>
+
+
+                @*<div class="form-group">
+                    <div class="input-group input-group-md  addon-md">
+                        <input type="text" placeholder="Texte" name="" id="schbox" class="form-control">
+                        <i class="icon icon-search"></i>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-inverse">Rechercher</button>
+                        </span>
+                    </div>
+                </div>*@
+
+
+            }
+            @*<div class="container">
+                <form method="get" asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage>
+                <label>Rechercher</label>
+                <input type="text" id="mediaKeyword" name="mediaKeyword" value="@ViewBag.MediaKeyword" />
+                <button type="submit" class="btn btn-primary">Chercher</button>
+                </form>
+            </div>*@
+        </div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                @*<th>Src</th>*@
+                @*<th>Description</th>*@
+                <th>Ajouter</th>
+                <th>Visionner</th>
+            </tr>
+        
+            @{
+                foreach (CaroloTV.Models.Media m in ViewBag.Medias)
+                {
+                    <tr>
+                        <td>@m.Name</td>
+                        @*<td>@m.Src</td>*@
+                        @*<td>@m.Description</td>*@
+                        <td>
+                            @Html.ActionLink("Ajouter", "AddMedia", "Create", new { medianame = @m.Name, proprietaryname = @m.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" onclick="visionnerVideo('@m.Src')">Visionner</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = 0, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.Before, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    @{
+                        for (int i = ViewBag.MediaNavPage.MinPage; i <= ViewBag.MediaNavPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.MediaNavPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @i, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.After, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "Hourly", "Create", new { proprietaryname = @ViewBag.ProprietaryName, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.TotalPage, mediaKeyword = @ViewBag.MediaKeyword }, null)</li>
+                </ul>
+            </nav>
+
+
+
+
+            @*<ul class="nav nav-pills">
+        
+                @{
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage="0" asp-route-mediaKeyword=@ViewBag.MediaKeyword><<</a></li>
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.Before asp-route-mediaKeyword=@ViewBag.MediaKeyword><</a></li>
+        
+                    for (int i = ViewBag.MediaNavPage.MinPage; i <= ViewBag.MediaNavPage.MaxPage; i++)
+                    {
+                        string className = "";
+                        if (i == ViewBag.MediaNavPage.CurrentPage) { className = "active"; }
+        
+        
+                        <li class=@className>
+                            <a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage="@i" asp-route-mediaKeyword=@ViewBag.MediaKeyword>@i</a>
+                        </li>
+                    }
+        
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.After asp-route-mediaKeyword=@ViewBag.MediaKeyword>></a></li>
+                    <li><a asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.TotalPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>>></a></li>
+                }
+            </ul>*@
+        </div>
+    </div>
+</div>
+
+@*<div class="container col-xs-12 col-md-4 col-lg-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Video</div>
+        <div class="panel-body" id="panelVideo">
+            <div id="myElement">Loading the player...</div>
+        </div>
+    </div>
+</div>*@
+<div class="container col-xs-12 col-md-3 col-lg-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Proprietaires</div>
+        <div class="panel-body">
+            @Html.ActionLink("Clear", "Hourly", "Create", new { proprietaryname = "", channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary" })
+        </div>
+            @*<form method="post" asp-action="Hourly" asp-route-proprietaryname=@ViewBag.ProprietaryName asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>*@
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        @*<th>ImageUrl</th>*@
+                        <th>Selectionner</th>
+                    </tr>
+                    @{
+                        foreach (CaroloTV.Models.Proprietary p in ViewBag.Proprietarys)
+                        {
+                            <tr>
+                                <td>@p.Name</td>
+                                @*<td>@p.ImageUrl</td>*@
+                                <td>
+                                    @*<a class="btn btn-primary btn-xs" asp-action="Hourly" asp-route-proprietaryID=@p.Name , asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>Selectionner</a>*@
+                                    @Html.ActionLink("Selectionner", "Hourly", "Create", new { proprietaryname = @p.Name, channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary btn-xs" })
+
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+
+            @*</form>*@
+            <div class="panel-footer text-center">
+                @*<a class="btn btn-primary btn-xs" asp-action="Hourly" asp-route-proprietaryID=0 asp-route-channel="@ViewBag.Channel" asp-route-hourlyPage=@ViewBag.HourlyNavPage.CurrentPage asp-route-mediaPage=@ViewBag.MediaNavPage.CurrentPage asp-route-mediaKeyword=@ViewBag.MediaKeyword>Clear</a>*@
+                @*@Html.ActionLink("Clear", "Hourly", "Create", new { proprietaryname = "", channel = @ViewBag.Channel, hourlyPage = @ViewBag.HourlyNavPage.CurrentPage, mediaPage = @ViewBag.MediaNavPage.CurrentPage, mediaKeyword = @ViewBag.MediaKeyword }, new { @class = "btn btn-primary btn-xs" })*@
+            </div>
+        @*</div>*@
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Vidéo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body" id="panelVideo">
+                    <div id="myElement">Loading the player...</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button class="btn btn-primary" type="button"><i class="icon icon-check icon-lg"></i> Valide</button>*@
+                <button class="btn btn-inverse" type="button" data-dismiss="modal"><i class="icon icon-times"></i><i class="icon icon-camera"></i>Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script src="~/Scripts/jwplayer/jwplayer.js"></script>
+    <script>jwplayer.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";</script>
+
+    <script type="text/javascript">
+        var panelVideo = document.getElementById("panelVideo");
+        var playerInstance = jwplayer("myElement");
+        playerInstance.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";
+        playerInstance.setup({
+            //file: "//www.youtube.com/watch?v=fxCEcPxUbYA",
+            //autostart:"true",
+            width: panelVideo.style.width,
+            controls:"false"
+        });
+
+        playerInstance.on("time", function () { })
+
+        $('#myModal').on('hidden.bs.modal', function (e) {
+            
+        })
+
+        function visionnerVideo(source)
+        {
+            $('#myModal').modal({
+                backdrop: true,
+                keyboard: true,
+                show: true,
+                remote: false
+            })
+
+            var src = "//www.youtube.com/watch?v=" + source;
+            var second = 50;
+
+            playerInstance.seek(50);
+            playerInstance.setup({ file: src, autostart: "true" });//replacer TOUT le setup
+
+            playerInstance.on("firstFrame", function () {
+                playerInstance.seek(75);
+            });
+        };
+    </script>

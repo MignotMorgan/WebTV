@@ -1,0 +1,141 @@
+﻿@model CaroloTV.Models.Proprietary
+
+@{ViewData["Title"] = "Modify Proprietary";}
+
+@using (Html.BeginForm("SaveProprietary", "Create", new { channel = @ViewBag.Channel, page = @ViewBag.NavPage.CurrentPage, keyword = @ViewBag.Keyword }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="container col-xs-12 col-md-6 col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Créer un nouveau Propriétaire</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Name, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Name, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Name, "", new { @class = "text-danger" })
+                 </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.ImageUrl, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.ImageUrl, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.BackGroundUrl, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.BackGroundUrl, new { @class = "form-control" })</div>
+                        @Html.ValidationMessageFor(p => p.BackGroundUrl, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.WebSite, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.WebSite, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.WebSite, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Youtube, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Youtube, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Youtube, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Facebook, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Facebook, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Facebook, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Twitter, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Twitter, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Twitter, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Google, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Google, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Google, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Dailymotion, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Dailymotion, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Dailymotion, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Vimeo, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Vimeo, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Vimeo, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Email, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Email, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Description, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextAreaFor(p => p.Description, new { @class = "form-control", rows = "10" })</div>
+                    @Html.ValidationMessageFor(p => p.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary btn-xs">Save</button>
+                @Html.ActionLink("Clear", "Proprietary", "Create", new { proprietaryname = "", channel = @ViewBag.Channel, page = @ViewBag.NavPage.CurrentPage, keyword = @ViewBag.Keyword }, new { @class = "btn btn-primary btn-xs" })
+                @Html.ActionLink("Medias", "Media", "Create", new { medianame = "", proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = @ViewBag.NavPage.CurrentPage, keyword = "" }, new { @class = "btn btn-primary btn-xs" })
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container col-xs-12 col-md-6 col-lg-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Liste des Propriétaires</div>
+        <div class="panel-body">
+            @using (Html.BeginForm("Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = 0, keyword = @ViewBag.Keyword }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control" name="keyword" value="@ViewBag.Keyword" placeholder="Search for..."/>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Chercher</button>
+                    </span>
+                </div>
+            }
+        </div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>ImageUrl</th>
+                <th>Description</th>
+                <th>Selectionner</th>
+                <th>Supprimer</th>
+            </tr>
+            @{
+                foreach (var m in ViewBag.Proprietarys)
+                {
+                    <tr>
+                        <td>@m.Name</td>
+                        <td>@m.ImageUrl</td>
+                        <td>@m.Description</td>
+                        <td>
+                            @Html.ActionLink("SelectProprietary", "Proprietary", "Create", new { channel = @ViewBag.Channel, proprietaryname = @m.Name, page = @ViewBag.NavPage.CurrentPage, keyword = @ViewBag.Keyword }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Supprimer", "DeleteProprietary", "Create", new { channel = @ViewBag.Channel, proprietaryname = @m.Name, page = @ViewBag.NavPage.CurrentPage, keyword = @ViewBag.Keyword }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = 0, keyword = @ViewBag.Keyword }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = @ViewBag.NavPage.Before, keyword = @ViewBag.Keyword }, null)</li>
+                    @{
+                        for (int i = ViewBag.NavPage.MinPage; i <= ViewBag.NavPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.NavPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = @i, keyword = @ViewBag.Keyword }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = @ViewBag.NavPage.After, keyword = @ViewBag.Keyword }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "Proprietary", "Create", new { proprietaryname = @Model.Name, channel = @ViewBag.Channel, page = @ViewBag.NavPage.TotalPage, keyword = @ViewBag.Keyword }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

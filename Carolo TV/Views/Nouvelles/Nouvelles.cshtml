@@ -1,0 +1,199 @@
+﻿@model CaroloTV.Models.News
+
+
+@using (Html.BeginForm("SaveNews", "Nouvelles", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="container col-xs-12 col-md-7 col-lg-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Nouvelles</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Channel, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Channel, new { @class = "form-control", @readonly = "readonly" })</div>
+                    @Html.ValidationMessageFor(p => p.Channel, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Active, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.CheckBoxFor(p => p.Active, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Active, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.HourlyGuid, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.HourlyGuid, new { @class = "form-control", @readonly = "readonly", id = "txtHourlyGuid" })</div>
+                    @Html.ValidationMessageFor(p => p.HourlyGuid, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.StartSeconds, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.StartSeconds, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.StartSeconds, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Duration, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Duration, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Duration, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Image, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Image, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Image, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Title, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Title, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Title, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Resume, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextBoxFor(p => p.Resume, new { @class = "form-control" })</div>
+                    @Html.ValidationMessageFor(p => p.Resume, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="container col-md-4 col-xs-12">@Html.LabelFor(p => p.Description, new { @class = "control-label" })</div>
+                    <div class="container col-md-8 col-xs-12">@Html.TextAreaFor(p => p.Description, new { @class = "form-control", rows = "10" })</div>
+                    @Html.ValidationMessageFor(p => p.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary btn-xs">Save</button>
+                @*@Html.ActionLink("Clear", "ProprietaryClear", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                @Html.ActionLink("Medias", "ProprietaryToMedia", "Create", new { value = @Model.Name }, new { @class = "btn btn-primary btn-xs" })*@
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+<div class="container col-xs-12 col-md-5 col-lg-5">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Horaire : @ViewBag.Channel</div>
+        <div class="panel-body">
+            <select name="channels" onchange="ChangeChannel(this.value)">
+                <option value=@ViewBag.Channel selected="selected">@ViewBag.Channel</option>
+                @{
+                    foreach (string s in ViewBag.ChannelList)
+                    {
+                        <option value=@s>@s</option>
+                    }
+
+                }
+            </select>
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                @*<th>GUID</th>*@
+                <th>Date</th>
+                <th>Media</th>
+                <th>Durée</th>
+                <th>Selectionner</th>
+            </tr>
+            @{
+                foreach (CaroloTV.Models.Hourly h in ViewBag.Hourlys)
+                {
+                    <tr>
+                        @*<td>@h.Guid</td>*@
+                        <td>@h.Date</td>
+                        <td>@h.Media.Name</td>
+                        <td>@h.Media.Duration</td>
+                        <td>
+                            @*@Html.ActionLink("Supprimer", "DeleteHourly", "Hourly", new { value = @h.Guid }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-remove" })*@
+                            <a class="btn btn-primary btn-xs" onclick="SelectHourly('@h.Guid')"><i class="glyphicon glyphicon-film"></i> Selectionner</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "HourlyPage", "Nouvelles", new { value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "HourlyPage", "Nouvelles", new { value = @ViewBag.HPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.HPage.MinPage; i <= ViewBag.HPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.HPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "HourlyPage", "Nouvelles", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "HourlyPage", "Nouvelles", new { value = @ViewBag.HPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "HourlyPage", "Nouvelles", new { value = @ViewBag.HPage.TotalPage }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container col-xs-12 col-md-5 col-lg-5">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Nouvelles</div>
+        <div class="panel-body">
+
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                <th>Title</th>
+                <th>Durée</th>
+                <th>Activer</th>
+                <th>Selectionner</th>
+            </tr>
+            @{
+                foreach (CaroloTV.Models.News n in ViewBag.News)
+                {
+                    <tr>
+                        <td>@n.Title</td>
+                        <td>@n.Duration</td>
+                        <td></td>
+                        <td>
+                            @*@Html.ActionLink("Supprimer", "DeleteHourly", "Hourly", new { value = @h.Guid }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-remove" })*@
+                            <a class="btn btn-primary btn-xs" onclick="SelectNews('@n.Title')"><i class="glyphicon glyphicon-info-sign"></i> Selectionner</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "NewsPage", "Nouvelles", new { value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "NewsPage", "Nouvelles", new { value = @ViewBag.NPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.NPage.MinPage; i <= ViewBag.NPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.NPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "NewsPage", "Nouvelles", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "NewsPage", "Nouvelles", new { value = @ViewBag.NPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "NewsPage", "Nouvelles", new { value = @ViewBag.NPage.TotalPage }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    function SelectNews(title)
+    {
+        window.location.href = "/Nouvelles/NewsSelect?value=" + title;
+    };
+    function SelectHourly(guid)
+    {
+        document.getElementById("txtHourlyGuid").value = guid;
+    };
+    function ChangeChannel(value)
+    {
+        //alert(value);
+        window.location.href = "/Nouvelles/NouvellesChannel?channel=" + value;
+    }
+</script>

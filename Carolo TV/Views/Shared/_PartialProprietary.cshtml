@@ -1,0 +1,21 @@
+﻿@model CaroloTV.Models.Proprietary
+
+<style type="text/css">
+
+</style>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">Proprietaire : @Model.Name</div>
+    <div class="panel-body" style="background:url(@Model.BackGroundUrl); background-size:100% 100%">
+        <img src=@Model.ImageUrl style="width: 25%; height:25%" href="#collapseProprietary" data-toggle="collapse" class="accordion-toggle thumbnail">
+    </div>
+    <div class="panel-footer">
+            @*<a href="#collapseProprietary" data-toggle="collapse" class="accordion-toggle btn btn-default" style="width:100%">Description</a>*@
+
+        <div class="panel-collapse collapse" id="collapseProprietary">
+            <h1>@Model.Name</h1>
+            <h5>@Model.Description</h5>
+        </div>
+    </div>
+</div>
+

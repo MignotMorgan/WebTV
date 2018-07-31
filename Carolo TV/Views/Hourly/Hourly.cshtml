@@ -1,0 +1,326 @@
+﻿@model IEnumerable<CaroloTV.Models.Hourly>
+
+<div class="container col-xs-12 col-md-5 col-lg-5">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Horaire : @ViewBag.HName</div>
+        <div class="panel-body">
+            @Html.ActionLink("Actualiser", "ActualiserHourly", "Hourly",null, new { @class = "btn btn-primary" })
+            @{ string btn_hourlycurrent = ViewBag.HCurrent ? "btn btn-success" : "btn btn-primary";}
+            @Html.ActionLink("Hourly", "HourlyCurrent", "Hourly", null, new { @class = @btn_hourlycurrent })
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                @*<th>GUID</th>*@
+                <th>Date</th>
+                <th>Media</th>
+                <th>Durée</th>
+                <th>Supprimer</th>
+            </tr>
+            @{
+                foreach (CaroloTV.Models.Hourly h in Model)
+                {
+                    <tr>
+                        @*<td>@h.Guid</td>*@
+                        <td>@h.Date</td>
+                        <td>@h.Media.Name</td>
+                        @{
+                            int totalsecond = @h.Media.Duration;
+                            int second = totalsecond % 60;
+                            totalsecond /= 60;
+                            int minute = totalsecond % 60;
+                            totalsecond /= 60;
+                            int hour = totalsecond;
+                        }
+                        <td>@hour:@minute:@second </td>
+                        <td>
+                            @*@Html.ActionLink("Supprimer", "DeleteHourly", "Hourly", new { value = @h.Guid }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-remove" })*@
+                            <a class="btn btn-danger btn-xs" onclick="DeleteHourlyCurrent('@h.Guid')"><i class="glyphicon glyphicon-remove"></i> Supprimer</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "HourlyPage", "Hourly", new {value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "HourlyPage", "Hourly", new {value = @ViewBag.HPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.HPage.MinPage; i <= ViewBag.HPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.HPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "HourlyPage", "Hourly", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "HourlyPage", "Hourly", new { value = @ViewBag.HPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "HourlyPage", "Hourly", new { value = @ViewBag.HPage.TotalPage }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container col-xs-12 col-md-4 col-lg-4">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Media</div>
+        <div class="panel-body">
+            @using (Html.BeginForm("HourlyMKeyword", "Hourly", new { }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                    <input type="text" class="form-control" name="value" value="@ViewBag.MKeyword" placeholder="Texte" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </span>
+                </div>
+            }
+        </div>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Ajouter</th>
+                <th>Visionner</th>
+            </tr>
+        
+            @{
+                foreach (CaroloTV.Models.Media m in ViewBag.Medias)
+                {
+                    <tr>
+                        <td>@m.Name</td>
+                        <td>
+                            @Html.ActionLink("Ajouter", "AddMedia", "Hourly", new { mname = @m.Name, pname = @m.ProprietaryName }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" onclick="visionnerVideo('@m.Src')"><i class="glyphicon glyphicon-facetime-video"></i> Visionner</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <div class="panel-footer text-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "HourlyMediaPage", "Hourly", new { value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "HourlyMediaPage", "Hourly", new { value = @ViewBag.MPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.MPage.MinPage; i <= ViewBag.MPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.MPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "HourlyMediaPage", "Hourly", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "HourlyMediaPage", "Hourly", new { value = @ViewBag.MPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "HourlyMediaPage", "Hourly", new { value = @ViewBag.MPage.TotalPage }, null)</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container col-xs-12 col-md-3 col-lg-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Proprietaires</div>
+        <div class="panel-body">
+            @Html.ActionLink("Clear", "HourlyClearProprietary", "Hourly", null, new { @class = "btn btn-primary" })
+        </div>
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Selectionner</th>
+                    </tr>
+                    @{
+                        foreach (CaroloTV.Models.Proprietary p in ViewBag.Proprietarys)
+                        {
+                            <tr>
+                                <td>@p.Name</td>
+                                <td>
+                                    @Html.ActionLink("Selectionner", "HourlySelectProprietary", "Hourly", new { value = @p.Name }, new { @class = "btn btn-primary btn-xs" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+
+            @*</form>*@
+            <div class="panel-footer text-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-sm">
+                        <li>@Html.ActionLink("\u00AB", "HourlyProprietaryPage", "Hourly", new { value = 0 }, null)</li>
+                        <li>@Html.ActionLink("\u2039", "HourlyProprietaryPage", "Hourly", new { value = @ViewBag.PPage.Before }, null)</li>
+                        @{
+                            for (int i = ViewBag.PPage.MinPage; i <= ViewBag.PPage.MaxPage; i++)
+                            {
+                                string className = "";
+                                if (i == ViewBag.PPage.CurrentPage) { className = "active"; }
+
+                                <li class=@className>@Html.ActionLink(@i.ToString(), "HourlyProprietaryPage", "Hourly", new { value = @i }, null)</li>
+                            }
+                        }
+                        <li>@Html.ActionLink("\u203A", "HourlyProprietaryPage", "Hourly", new { value = @ViewBag.PPage.After }, null)</li>
+                        <li>@Html.ActionLink("\u00BB", "HourlyProprietaryPage", "Hourly", new { value = @ViewBag.PPage.TotalPage }, null)</li>
+                    </ul>
+                </nav>            
+            </div>
+    </div>
+</div>
+
+
+<div class="container col-xs-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Liste des Horaires</div>
+        <div class="panel-body">
+            @using (Html.BeginForm("CreateHourly", "Hourly", new { }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                    <input type="text" class="form-control" name="value" value="@ViewBag.HName" placeholder="Nouvelle horaire" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                    </span>
+                </div>
+            }
+        </div>
+        <table class="table">
+            <tr>
+                <th>Nom</th>
+                <th>Supprimer(Modal)</th>
+                <th>Selectionner</th>
+                <th>Actualiser</th>
+                <th>WebTV</th>
+                <th>Ajouter</th>
+            </tr>
+            @{
+                foreach (string s in ViewBag.HourlysList)
+                {
+                    <tr>
+                        <td>@s</td>
+                        <td></td>
+                        <td>
+                            @Html.ActionLink("Selectionner", "HourlySelect", "Hourly", new { value = @s }, new { @class = "btn btn-primary" })
+                        </td>
+                        <td></td>
+                        <td>
+                            @Html.ActionLink("WebTV", "RemplaceWebTV", "Hourly", new { value = @s }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("WebTV", "AjouteWebTV", "Hourly", new { value = @s }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+        <div class="panel-footer"></div>
+</div>
+</div>
+
+<div class="modal fade" id="ModalDeleteHourlyCurrent" tabindex="-1" role="dialog" aria-labelledby="ModalDeleteHourlyCurrentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Supprimer le média dans l'horaire</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger btn-xs" onclick="ConfirmDeleteHourlyCurrent()" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Supprimer</a>
+                <button class="btn btn-inverse btn-xs" type="button" data-dismiss="modal"><i class="glyphicon glyphicon-ban-circle"></i><i class="icon icon-camera"></i> Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalVideo" tabindex="-1" role="dialog" aria-labelledby="ModalVideoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Vidéo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body" id="panelVideo">
+                    <div id="myElement">Loading the player...</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-inverse" type="button" data-dismiss="modal"><i class="icon icon-times"></i><i class="icon icon-camera"></i>Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jwplayer/jwplayer.js"></script>
+<script>jwplayer.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";</script>
+
+<script type="text/javascript">
+        var panelVideo = document.getElementById("panelVideo");
+        var playerInstance = jwplayer("myElement");
+        playerInstance.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";
+        playerInstance.setup({
+            //file: "//www.youtube.com/watch?v=fxCEcPxUbYA",
+            //autostart:"true",
+            width: panelVideo.style.width,
+            controls:"false"
+        });
+
+        playerInstance.on("time", function () { })
+
+        function visionnerVideo(source)
+        {
+            $('#ModalVideo').modal({
+                backdrop: true,
+                keyboard: true,
+                show: true,
+                remote: false
+            })
+            $('#ModalVideo').on('hide.bs.modal', function (e) {
+                playerInstance.setup({
+                    file: "",
+                    //autostart:"true",
+                    width: panelVideo.style.width
+                    //controls: "false"
+                });
+            })
+
+            var src = "//www.youtube.com/watch?v=" + source;
+            //var second = 50;
+
+            //playerInstance.seek(50);
+            playerInstance.setup({ file: src, autostart: "true" });//replacer TOUT le setup
+
+            playerInstance.on("firstFrame", function () {
+                //playerInstance.seek(75);
+            });
+        };
+
+
+        var hourlycurrent;
+        function DeleteHourlyCurrent(hc)
+        {
+            hourlycurrent = hc;
+            $('#ModalDeleteHourlyCurrent').modal({
+                backdrop: true,
+                keyboard: true,
+                show: true,
+                remote: false
+            })
+            $('#ModalDeleteHourlyCurrent').on('hide.bs.modal', function (e) { })
+        };
+        function ConfirmDeleteHourlyCurrent()
+        {
+            window.location.href = "/Hourly/DeleteHourly?value=" + hourlycurrent;
+        };
+
+
+
+
+
+</script>
+
+

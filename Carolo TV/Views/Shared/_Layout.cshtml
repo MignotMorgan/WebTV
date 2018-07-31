@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mon application ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("À propos de", "About", "Home")</li>*@
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Nouvelles", "NouvellesChannel", "Nouvelles", new { channel = "Mangameek" }, null)</li>
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            WebTV
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-inverse">
+
+                            @{
+                                foreach (string s in CaroloTV.Services.Channels.Names)
+                                {
+                                    <li>@Html.ActionLink(s, "WebTVChannel", "WebTV", new { channel = s }, null)</li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Hourly
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-inverse">
+
+                            @{
+                                foreach (string s in CaroloTV.Services.Channels.Names)
+                                {
+                                    <li>@Html.ActionLink(s, "HourlyChannel", "Hourly", new { channel = s }, null)</li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Media
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-inverse">
+
+                            @{
+                                foreach (string s in CaroloTV.Services.Channels.Names)
+                                {
+                                    <li>@Html.ActionLink(s, "CreateChannel", "Create", new { channel = s }, null)</li>
+                                }
+                            }
+                        </ul>
+                    </li>
+
+                    @*<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Informavie <b class="caret"></b></a>
+                        <ul class="dropdown-menu dropdown-menu-inverse">
+                            <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "Informavie" }, null)</li>
+                            <li role="separator" class="divider"></li>
+                            <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "Informavie" }, null)</li>
+                            <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "Informavie" }, null)</li>
+                        </ul>
+                    </li>*@
+                    @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Informavie
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-inverse">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "Informavie" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "Informavie" }, null)</li>
+                                <li>@Html.ActionLink("Nouvelles", "NouvellesChannel", "Hourly", new { channel = "Informavie" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "Informavie" }, null)</li>
+                            </ul>
+                    </li>
+
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Mangameek
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-inverse">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "Mangameek" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "Mangameek" }, null)</li>
+                                <li>@Html.ActionLink("Nouvelles", "NouvellesChannel", "Hourly", new { channel = "Mangameek" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "Mangameek" }, null)</li>
+                            </ul>
+
+                    </li>
+
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Mystravely
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "Mystravely" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "Mystravely" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "Mystravely" }, null)</li>
+                            </ul>
+                    </li>
+
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                TutorialTV
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "TutorialTV" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "TutorialTV" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "TutorialTV" }, null)</li>
+                            </ul>
+                    </li>
+
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Variety
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "Variety" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "Variety" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "Variety" }, null)</li>
+                            </ul>
+                    </li>
+                    <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" id="dropdownMenuCaroloMusic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                CaroloMusic
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuCaroloMusic">
+                                <li>@Html.ActionLink("WebTV", "WebTVChannel", "WebTV", new { channel = "CaroloMusic" }, null)</li>
+                                <li role="separator" class="divider"></li>
+                                <li>@Html.ActionLink("Hourly", "HourlyChannel", "Hourly", new { channel = "CaroloMusic" }, null)</li>
+                                <li>@Html.ActionLink("Media", "CreateChannel", "Create", new { channel = "CaroloMusic" }, null)</li>
+                            </ul>
+                    </li>*@
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @RenderBody()
+        @*<hr />*@
+        <footer class="col-xs-12">
+            <hr/>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Suggestion</h2>
+                    <p>Carolo Tv vous offre l'opportunitée de passer vos vidéo en continu ou de faire des suggestions de vidéo, de chaîne ou autres que vous aimé. Pour cela rien de plus simple, remplissez notre formulaire de suggestion.</p>
+                    <p><a class="btn btn-default" href="/Offices/Suggestion/">Nous joindres. &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Le journalisme à votre portée</h2>
+                    <p>Devenez journaliste d'un jour ou de toujours pour votre région ou un évènement. Pour cela rien de plus simple, remplissez notre formulaire d'adhésion et envoyer nous vos vidéo.</p>
+                    <p><a class="btn btn-default" href="/Offices/Journalisme/">Candidature &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Créer votre WebTV</h2>
+                    <p>Vous désirez créer votre WebTv en continu, inscrivez-vous et rejoignez nous dans la grande aventure des WebTv en continu.</p>
+                    <p><a class="btn btn-default" href="/Offices/CreateWebTV/">Postulez &raquo;</a></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Votre publicité à la vue de tous.</h2>
+                    <p>Vous désirez faire la publicité de votre site, de votre établissement ou de vos produits? CaroloTV met à votre disposition une plate-forme performante.</p>
+                    <p><a class="btn btn-default" href="/Offices/Publicite/">Nous contactez. &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Nous aider</h2>
+                    <p>Vous pouvez nous aider à améliorer notre service en nous finançant.</p>
+                    <p><a class="btn btn-default" href="/Offices/Finances/">Financement. &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Votre avis compte</h2>
+                    <p>Faites nous part de votre avis et des différentes améliorations que nous pouvons apporter à CaroloTV.</p>
+                    <p><a class="btn btn-default" href="/Offices/Avis/">Votre avis. &raquo;</a></p>
+                </div>
+            </div>
+
+            <p>&copy; @DateTime.Now.Year - Carolo TV</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

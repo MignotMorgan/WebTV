@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CaroloTV.Models.Hourly>
+
+
+@*<div class="container col-xs-12 col-md-6 col-lg-6">*@
+<div class="panel-body" id="panelVideo">
+    <div id="myElement">Loading the player...</div>
+</div>
+
+
+@*</div>*@
+
+<div class="container col-xs-12 col-md-6 col-lg-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Horaire : @ViewBag.Channel</div>
+        <div class="panel-body">
+
+        </div>
+        <table class="table table-responsive">
+            <tr>
+                <th>Date</th>
+                <th>Media</th>
+                <th>Durée</th>
+                <th>Info</th>
+            </tr>
+            @{
+                foreach (CaroloTV.Models.Hourly h in Model)
+                {
+                    <tr>
+                        <td>@h.Date</td>
+                        <td>@h.Media.Name</td>
+                        @{
+                            int totalsecond = @h.Media.Duration;
+                            int second = totalsecond % 60;
+                            totalsecond /= 60;
+                            int minute = totalsecond % 60;
+                            totalsecond /= 60;
+                            int hour = totalsecond;
+                        }
+                        <td>@hour:@minute:@second </td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" onclick="InfoVideo('@h.Guid')">Info</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="panel-footer text-center">
+        @*<nav aria-label="Page navigation">
+                <ul class="pagination pagination-sm">
+                    <li>@Html.ActionLink("\u00AB", "HourlyPage", "Hourly", new { value = 0 }, null)</li>
+                    <li>@Html.ActionLink("\u2039", "HourlyPage", "Hourly", new { value = @ViewBag.HPage.Before }, null)</li>
+                    @{
+                        for (int i = ViewBag.HPage.MinPage; i <= ViewBag.HPage.MaxPage; i++)
+                        {
+                            string className = "";
+                            if (i == ViewBag.HPage.CurrentPage) { className = "active"; }
+
+                            <li class=@className>@Html.ActionLink(@i.ToString(), "HourlyPage", "Hourly", new { value = @i }, null)</li>
+                        }
+                    }
+                    <li>@Html.ActionLink("\u203A", "HourlyPage", "Hourly", new { value = @ViewBag.HPage.After }, null)</li>
+                    <li>@Html.ActionLink("\u00BB", "HourlyPage", "Hourly", new { value = @ViewBag.HPage.TotalPage }, null)</li>
+                </ul>
+            </nav>*@
+    </div>
+
+</div>
+
+
+<script src="~/Scripts/jwplayer/jwplayer.js"></script>
+<script>jwplayer.key = "DSIshXd/x70UrpMj1rWk4/6M/NVPXnp4C1/29Q==";</script>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/WebTV.js"></script>
+
